@@ -15,7 +15,6 @@ dependencies:
       - scikit-learn==1.4.2
       - xgboost==2.0.3
       - shap==0.45.1
-      - streamlit==1.35.0
       - jupyter==1.0.0
       - ipykernel==6.29.4
       - duckdb==1.1.3
