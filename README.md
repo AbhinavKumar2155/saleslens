@@ -1,6 +1,6 @@
 # Customer 360 Revenue Intelligence Platform
 
-**Customer Segmentation · Churn Risk Prediction · Health Scoring · Revenue Action Planning**
+**Customer Segmentation Â· Churn Risk Prediction Â· Health Scoring Â· Revenue Action Planning**
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-DuckDB%201.1.3-F4C519?logo=duckdb&logoColor=black)
@@ -32,10 +32,10 @@ An end-to-end customer analytics platform that processes 1M+ online retail trans
 How can a business use customer transaction history to identify high-value customers, predict who is likely to churn, and prioritize retention and growth actions?
 
 **Solution:**
-A fully reproducible end-to-end Python pipeline that transforms raw Excel transaction data into cleaned transactions, 27-feature customer profiles, RFM segments, churn predictions, health scores, and business action priorities — all surfaced in an interactive dashboard.
+A fully reproducible end-to-end Python pipeline that transforms raw Excel transaction data into cleaned transactions, 27-feature customer profiles, RFM segments, churn predictions, health scores, and business action priorities â€” all surfaced in an interactive dashboard.
 
 **Key Insight:**
-Champions represent 22.1% of customers but generate **68.3% of revenue (£11.86M)**. Meanwhile, 2,952 customers are flagged as retention targets and 874 are classified as Critical Risk.
+Champions represent 22.1% of customers but generate **68.3% of revenue (Â£11.86M)**. Meanwhile, 2,952 customers are flagged as retention targets and 874 are classified as Critical Risk.
 
 ---
 
@@ -46,11 +46,11 @@ Champions represent 22.1% of customers but generate **68.3% of revenue (£11.86M
 | Raw transaction rows | 1,067,371 |
 | Clean transaction rows | 779,425 |
 | Customers analyzed | 5,878 |
-| Total revenue | £17,374,804.27 |
+| Total revenue | Â£17,374,804.27 |
 | Repeat buyers | 4,255 customers (72.4%) |
-| Revenue from repeat buyers | £16,814,532 (96.8% of total) |
+| Revenue from repeat buyers | Â£16,814,532 (96.8% of total) |
 | Champion customers | 1,297 (22.1% of customers) |
-| Revenue from Champions | £11.86M (68.3% of total) |
+| Revenue from Champions | Â£11.86M (68.3% of total) |
 | Churn model ROC-AUC | **0.8148** (Logistic Regression) |
 | Observation window customers | 5,041 |
 | Churned customers (label) | 2,512 (49.8%) |
@@ -58,14 +58,14 @@ Champions represent 22.1% of customers but generate **68.3% of revenue (£11.86M
 | Retention targets flagged | 2,952 customers |
 | VIP customers | 1,511 customers |
 | Dashboard tabs | 7 |
-| SQL analytics layer | 10 DuckDB SQL queries · 10 validated reporting outputs |
-| Revenue reconciliation (SQL) | £0.00 difference across Python and SQL outputs |
+| SQL analytics layer | 10 DuckDB SQL queries Â· 10 validated reporting outputs |
+| Revenue reconciliation (SQL) | Â£0.00 difference across Python and SQL outputs |
 
 ---
 
 ## Project Overview
 
-This project uses the [UCI Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) to build a Customer 360 analytics platform for a UK-based online retailer. The pipeline starts from raw Excel files and ends with an interactive Streamlit dashboard that allows users to explore customer segments, churn risk, revenue concentration, health tiers, and action priorities — all driven by real transaction data with no hardcoded metrics.
+This project uses the [UCI Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) to build a Customer 360 analytics platform for a UK-based online retailer. The pipeline starts from raw Excel files and ends with an interactive Streamlit dashboard that allows users to explore customer segments, churn risk, revenue concentration, health tiers, and action priorities â€” all driven by real transaction data with no hardcoded metrics.
 
 The project demonstrates practical skills in data analytics, business analytics, machine learning, model explainability, and business dashboarding.
 
@@ -93,14 +93,14 @@ This project addresses each question using a structured, reproducible customer a
 | Source | UC Irvine Machine Learning Repository |
 | Raw rows | 1,067,371 |
 | Sheets | Year 2009-2010, Year 2010-2011 |
-| Date range | December 2009 – December 2011 |
+| Date range | December 2009 â€“ December 2011 |
 | Retailer | UK-based online gift/retail store |
 | Columns | Invoice, StockCode, Description, Quantity, InvoiceDate, Price, Customer ID, Country |
 
-**Currency note:** All monetary values are treated as GBP (£), consistent with the UK-based retailer source. Country filters customer location only and does not change transaction currency.
+**Currency note:** All monetary values are treated as GBP (Â£), consistent with the UK-based retailer source. Country filters customer location only and does not change transaction currency.
 
 **Important limitations of this dataset:**
-- Does not contain a true churn label — churn was engineered using a time-window method
+- Does not contain a true churn label â€” churn was engineered using a time-window method
 - Does not contain customer demographics
 - Does not include marketing campaign or contact history data
 - Does not include exchange rates or multi-currency pricing
@@ -113,16 +113,16 @@ This project addresses each question using a structured, reproducible customer a
 |---|---|---|---|
 | Language | Python | 3.11 | All pipeline scripts |
 | Data Processing | pandas, NumPy | 2.2.2, 1.26.4 | Cleaning, EDA, feature engineering |
-| Storage Format | Parquet (pyarrow), CSV | — | Processed datasets for efficient I/O |
+| Storage Format | Parquet (pyarrow), CSV | â€” | Processed datasets for efficient I/O |
 | Machine Learning | scikit-learn, XGBoost | 1.4.2, 2.0.3 | Churn model training and comparison |
 | Explainability | SHAP | 0.45.1 | Model driver interpretation |
 | Visualization | Plotly, matplotlib | 5.22, 3.8.4 | Interactive and static charts |
 | Dashboard | Streamlit | 1.35.0 | Interactive Customer 360 dashboard |
 | SQL Analytics | SQL, DuckDB | 1.1.3 | Local SQL analytics layer over Parquet files for executive KPI and reporting outputs |
-| Version Control | Git | — | Local commits and project history |
+| Version Control | Git | â€” | Local commits and project history |
 
 **Future / optional extensions (not yet implemented):**
-BigQuery · Looker Studio · Docker · GitHub Actions · Streamlit Community Cloud
+BigQuery Â· Looker Studio Â· Docker Â· GitHub Actions Â· Streamlit Community Cloud
 
 ---
 
@@ -130,32 +130,32 @@ BigQuery · Looker Studio · Docker · GitHub Actions · Streamlit Community Clo
 
 ```
 Raw Excel Data (online_retail_II.xlsx)
-          ↓
-   Data Inspection                  →  reports/data_inspection.txt
-          ↓
-  Data Quality Audit                →  reports/data_quality_summary.csv
-          ↓
-     Data Cleaning                  →  clean_transactions.parquet
-          ↓
-   Clean Output Verification        →  22-point assertion checks
-          ↓
- Exploratory Data Analysis          →  7 CSV tables + 6 Plotly HTML charts
-          ↓
-Customer Feature Engineering        →  customer_features.parquet (5,878 × 27)
-          ↓
-     RFM Segmentation               →  rfm_segments.parquet (10 segments)
-          ↓
-   Churn Label Creation             →  churn_model_base.parquet (5,041 labeled)
-          ↓
-  Churn Model Training              →  churn_model.pkl (LR, RF, XGBoost compared)
-          ↓
-   SHAP Explainability              →  SHAP plots + feature importance CSV
-          ↓
-  Customer Health Score             →  customer_360.parquet (5,878 × 46)
-          ↓
-DuckDB SQL Analytics Layer          →  reports/sql_outputs/ (10 CSV reporting tables)
-          ↓
-  Streamlit Dashboard               →  app/streamlit_app.py (7 tabs)
+          â†“
+   Data Inspection                  â†’  reports/data_inspection.txt
+          â†“
+  Data Quality Audit                â†’  reports/data_quality_summary.csv
+          â†“
+     Data Cleaning                  â†’  clean_transactions.parquet
+          â†“
+   Clean Output Verification        â†’  22-point assertion checks
+          â†“
+ Exploratory Data Analysis          â†’  7 CSV tables + 6 Plotly HTML charts
+          â†“
+Customer Feature Engineering        â†’  customer_features.parquet (5,878 Ã— 27)
+          â†“
+     RFM Segmentation               â†’  rfm_segments.parquet (10 segments)
+          â†“
+   Churn Label Creation             â†’  churn_model_base.parquet (5,041 labeled)
+          â†“
+  Churn Model Training              â†’  churn_model.pkl (LR, RF, XGBoost compared)
+          â†“
+   SHAP Explainability              â†’  SHAP plots + feature importance CSV
+          â†“
+  Customer Health Score             â†’  customer_360.parquet (5,878 Ã— 46)
+          â†“
+DuckDB SQL Analytics Layer          â†’  reports/sql_outputs/ (10 CSV reporting tables)
+          â†“
+  Streamlit Dashboard               â†’  app/streamlit_app.py (7 tabs)
 ```
 
 All processed outputs are stored as Parquet and CSV files for reproducible, fast local analytics and efficient dashboard loading.
@@ -168,48 +168,48 @@ All processed outputs are stored as Parquet and CSV files for reproducible, fast
 
 ```
 customer-360-revenue-intelligence/
-├── app/
-│   └── streamlit_app.py              # 7-tab Streamlit dashboard
-├── data/
-│   ├── raw/                          # Source Excel file (gitignored)
-│   ├── interim/                      # Intermediate outputs
-│   └── processed/                    # Final cleaned datasets (gitignored)
-├── models/
-│   ├── churn_model.pkl               # Trained LR pipeline (gitignored)
-│   ├── churn_feature_columns.json    # Feature metadata
-│   └── model_metrics.json            # Performance metrics for all models
-├── notebooks/                        # Jupyter notebooks (exploratory)
-├── reports/
-│   ├── figures/                      # Plotly HTML + SHAP PNG charts
-│   ├── screenshots/                  # Dashboard screenshots (for README)
-│   └── sql_outputs/                  # DuckDB SQL reporting outputs (10 CSVs)
-├── sql/
-│   ├── 01_executive_kpis.sql
-│   ├── 02_health_tier_summary.sql
-│   ├── 03_rfm_segment_summary.sql
-│   ├── 04_churn_risk_summary.sql
-│   ├── 05_country_revenue.sql
-│   ├── 06_top_customers.sql
-│   ├── 07_action_priority_summary.sql
-│   ├── 08_monthly_revenue.sql
-│   ├── 09_product_revenue.sql
-│   └── 10_customer_value_tiers.sql
-├── src/
-│   ├── 01_load_and_inspect.py
-│   ├── 02_data_quality_audit.py
-│   ├── 03_clean_data.py
-│   ├── 04_verify_clean_outputs.py
-│   ├── 05_eda.py
-│   ├── 06_build_customer_features.py
-│   ├── 07_rfm_segmentation.py
-│   ├── 08_churn_labeling.py
-│   ├── 09_train_churn_model.py
-│   ├── 10_shap_explainability.py
-│   ├── 11_customer_health_score.py
-│   └── 12_sql_analytics_layer.py
-├── README.md
-├── requirements.txt
-└── environment.yml
+â”œâ”€â”€ app/
+â”‚   â””â”€â”€ streamlit_app.py              # 7-tab Streamlit dashboard
+â”œâ”€â”€ data/
+â”‚   â”œâ”€â”€ raw/                          # Source Excel file (gitignored)
+â”‚   â”œâ”€â”€ interim/                      # Intermediate outputs
+â”‚   â””â”€â”€ processed/                    # Final cleaned datasets (gitignored)
+â”œâ”€â”€ models/
+â”‚   â”œâ”€â”€ churn_model.pkl               # Trained LR pipeline (gitignored)
+â”‚   â”œâ”€â”€ churn_feature_columns.json    # Feature metadata
+â”‚   â””â”€â”€ model_metrics.json            # Performance metrics for all models
+â”œâ”€â”€ notebooks/                        # Jupyter notebooks (exploratory)
+â”œâ”€â”€ reports/
+â”‚   â”œâ”€â”€ figures/                      # Plotly HTML + SHAP PNG charts
+â”‚   â”œâ”€â”€ screenshots/                  # Dashboard screenshots (for README)
+â”‚   â””â”€â”€ sql_outputs/                  # DuckDB SQL reporting outputs (10 CSVs)
+â”œâ”€â”€ sql/
+â”‚   â”œâ”€â”€ 01_executive_kpis.sql
+â”‚   â”œâ”€â”€ 02_health_tier_summary.sql
+â”‚   â”œâ”€â”€ 03_rfm_segment_summary.sql
+â”‚   â”œâ”€â”€ 04_churn_risk_summary.sql
+â”‚   â”œâ”€â”€ 05_country_revenue.sql
+â”‚   â”œâ”€â”€ 06_top_customers.sql
+â”‚   â”œâ”€â”€ 07_action_priority_summary.sql
+â”‚   â”œâ”€â”€ 08_monthly_revenue.sql
+â”‚   â”œâ”€â”€ 09_product_revenue.sql
+â”‚   â””â”€â”€ 10_customer_value_tiers.sql
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ 01_load_and_inspect.py
+â”‚   â”œâ”€â”€ 02_data_quality_audit.py
+â”‚   â”œâ”€â”€ 03_clean_data.py
+â”‚   â”œâ”€â”€ 04_verify_clean_outputs.py
+â”‚   â”œâ”€â”€ 05_eda.py
+â”‚   â”œâ”€â”€ 06_build_customer_features.py
+â”‚   â”œâ”€â”€ 07_rfm_segmentation.py
+â”‚   â”œâ”€â”€ 08_churn_labeling.py
+â”‚   â”œâ”€â”€ 09_train_churn_model.py
+â”‚   â”œâ”€â”€ 10_shap_explainability.py
+â”‚   â”œâ”€â”€ 11_customer_health_score.py
+â”‚   â””â”€â”€ 12_sql_analytics_layer.py
+â”œâ”€â”€ README.md
+â”œâ”€â”€ requirements.txt
+â””â”€â”€ environment.yml
 ```
 
 ---
@@ -241,7 +241,7 @@ customer-360-revenue-intelligence/
 | Raw transaction rows | 1,067,371 |
 | Duplicate rows removed | 34,335 |
 | Null Customer ID rows dropped | 234,437 |
-| Returns/cancellations separated | 19,104 rows → `returns.csv` |
+| Returns/cancellations separated | 19,104 rows â†’ `returns.csv` |
 | Invalid price rows dropped | 70 |
 | **Final clean transactions** | **779,425** |
 
@@ -261,18 +261,18 @@ customer-360-revenue-intelligence/
 | Unique invoices | 36,969 |
 | Unique products | 4,631 |
 | Unique countries | 41 |
-| Total revenue | £17,374,804.27 |
+| Total revenue | Â£17,374,804.27 |
 | Total quantity sold | 10,513,952 units |
-| Average order value | £469.98 |
-| Median order value | £303.04 |
-| Peak revenue month | Nov 2010 — £1,166,460 |
-| Lowest revenue month | Feb 2011 — £446,085 |
+| Average order value | Â£469.98 |
+| Median order value | Â£303.04 |
+| Peak revenue month | Nov 2010 â€” Â£1,166,460 |
+| Lowest revenue month | Feb 2011 â€” Â£446,085 |
 | Peak active customers | 1,664 (Nov 2011) |
 | Repeat buyers | 4,255 customers (72.4%) |
-| Revenue from repeat buyers | £16,814,532 (96.8% of total) |
-| Top customer by revenue | Customer 18102 — £580,987 |
-| Top country by revenue | United Kingdom — £14,389,235 (82.8%) |
-| Top product by revenue | REGENCY CAKESTAND 3 TIER — £277,656 |
+| Revenue from repeat buyers | Â£16,814,532 (96.8% of total) |
+| Top customer by revenue | Customer 18102 â€” Â£580,987 |
+| Top country by revenue | United Kingdom â€” Â£14,389,235 (82.8%) |
+| Top product by revenue | REGENCY CAKESTAND 3 TIER â€” Â£277,656 |
 
 ---
 
@@ -292,31 +292,31 @@ customer-360-revenue-intelligence/
 | Loyalty | `is_repeat_buyer` |
 
 **Output validation:**
-- Final table: 5,878 customers × 27 features
-- Revenue reconciliation: £17,374,804.27 — **£0.00 difference** vs raw transaction sum
-- Repeat buyers: 4,255 (72.4%) · Customers with returns: 2,511 (42.7%)
-- Mean recency: 201.3 days · Median recency: 96 days
+- Final table: 5,878 customers Ã— 27 features
+- Revenue reconciliation: Â£17,374,804.27 â€” **Â£0.00 difference** vs raw transaction sum
+- Repeat buyers: 4,255 (72.4%) Â· Customers with returns: 2,511 (42.7%)
+- Mean recency: 201.3 days Â· Median recency: 96 days
 
 ---
 
 ## RFM Segmentation
 
-RFM scores (1–5) were assigned per dimension using quantile-based bins with a rank-percentile fallback for tied values (common in frequency distributions with many single-invoice customers). Recency uses an inverted scale: lower days = higher score.
+RFM scores (1â€“5) were assigned per dimension using quantile-based bins with a rank-percentile fallback for tied values (common in frequency distributions with many single-invoice customers). Recency uses an inverted scale: lower days = higher score.
 
 | Segment | Customers | % | Revenue | Rev % | Meaning |
 |---|---|---|---|---|---|
-| Champions | 1,297 | 22.1% | £11.86M | 68.3% | High R, F, M — best customers |
-| Loyal Customers | 650 | 11.1% | £1.83M | 10.6% | Frequent, consistently high value |
-| Potential Loyalists | 692 | 11.8% | £532K | 3.1% | Recent buyers with growth potential |
-| Needs Attention | 596 | 10.1% | £457K | 2.6% | Above average, need re-engagement |
-| Hibernating | 1,510 | 25.7% | £562K | 3.2% | Inactive — low recency and frequency |
-| At Risk | 378 | 6.4% | £413K | 2.4% | Previously good, now going cold |
-| Cannot Lose | 223 | 3.8% | £982K | 5.7% | High historical value, now inactive |
-| Big Spenders | 70 | 1.2% | £604K | 3.5% | High monetary, lower frequency |
-| New Customers | 167 | 2.8% | £52K | 0.3% | Recent first-time buyers |
-| Low Value | 295 | 5.0% | £79K | 0.5% | Low spend across all dimensions |
+| Champions | 1,297 | 22.1% | Â£11.86M | 68.3% | High R, F, M â€” best customers |
+| Loyal Customers | 650 | 11.1% | Â£1.83M | 10.6% | Frequent, consistently high value |
+| Potential Loyalists | 692 | 11.8% | Â£532K | 3.1% | Recent buyers with growth potential |
+| Needs Attention | 596 | 10.1% | Â£457K | 2.6% | Above average, need re-engagement |
+| Hibernating | 1,510 | 25.7% | Â£562K | 3.2% | Inactive â€” low recency and frequency |
+| At Risk | 378 | 6.4% | Â£413K | 2.4% | Previously good, now going cold |
+| Cannot Lose | 223 | 3.8% | Â£982K | 5.7% | High historical value, now inactive |
+| Big Spenders | 70 | 1.2% | Â£604K | 3.5% | High monetary, lower frequency |
+| New Customers | 167 | 2.8% | Â£52K | 0.3% | Recent first-time buyers |
+| Low Value | 295 | 5.0% | Â£79K | 0.5% | Low spend across all dimensions |
 
-> Champions are 22.1% of customers but generate **68.3% of revenue** — the dominant segment by revenue concentration.
+> Champions are 22.1% of customers but generate **68.3% of revenue** â€” the dominant segment by revenue concentration.
 
 ---
 
@@ -326,12 +326,12 @@ The original dataset does not include a churn label. Churn was engineered using 
 
 | Window | Date Range |
 |---|---|
-| Observation window | December 2009 – June 2011 |
-| Prediction window | July 2011 – December 2011 |
+| Observation window | December 2009 â€“ June 2011 |
+| Prediction window | July 2011 â€“ December 2011 |
 
 **Label rules:**
-- `churned = 1` — customer purchased during the observation window but **not** during the prediction window
-- `churned = 0` — customer purchased during **both** windows
+- `churned = 1` â€” customer purchased during the observation window but **not** during the prediction window
+- `churned = 0` â€” customer purchased during **both** windows
 - Customers appearing only in the prediction window were excluded from model training
 
 | Metric | Value |
@@ -359,7 +359,7 @@ Three models were trained and compared on an 80/20 stratified train-test split:
 
 **Selected model: Logistic Regression**
 
-Logistic Regression achieved the highest ROC-AUC (0.8148) and Average Precision (0.8004). It was selected because it matches Random Forest performance closely while remaining fully interpretable — coefficients map directly to business-readable churn drivers.
+Logistic Regression achieved the highest ROC-AUC (0.8148) and Average Precision (0.8004). It was selected because it matches Random Forest performance closely while remaining fully interpretable â€” coefficients map directly to business-readable churn drivers.
 
 ---
 
@@ -367,9 +367,9 @@ Logistic Regression achieved the highest ROC-AUC (0.8148) and Average Precision 
 
 | Risk Tier | Churn Probability | Customers | % | Recommended Action |
 |---|---|---|---|---|
-| Critical Risk | ≥ 80% | 874 | 17.3% | Immediate personal outreach + offer |
-| High Risk | 60–79% | 1,256 | 24.9% | Targeted win-back email within 7 days |
-| Medium Risk | 40–59% | 1,387 | 27.5% | Monitor and nurture |
+| Critical Risk | â‰¥ 80% | 874 | 17.3% | Immediate personal outreach + offer |
+| High Risk | 60â€“79% | 1,256 | 24.9% | Targeted win-back email within 7 days |
+| Medium Risk | 40â€“59% | 1,387 | 27.5% | Monitor and nurture |
 | Low Risk | < 40% | 1,524 | 30.2% | Loyalty and cross-sell campaigns |
 
 837 customers who entered during the prediction window are labeled **Not Scored** and retained in the Customer 360 table with a neutral health component.
@@ -383,20 +383,20 @@ Logistic Regression achieved the highest ROC-AUC (0.8148) and Average Precision 
 **Outputs generated:**
 - `reports/figures/churn_shap_beeswarm.png`
 - `reports/figures/churn_shap_bar.png`
-- `reports/churn_global_feature_importance.csv` — 57 transformed features ranked by |coefficient|
-- `reports/churn_customer_explanations_sample.csv` — top-20 high-risk customers with SHAP top-3 drivers
+- `reports/churn_global_feature_importance.csv` â€” 57 transformed features ranked by |coefficient|
+- `reports/churn_customer_explanations_sample.csv` â€” top-20 high-risk customers with SHAP top-3 drivers
 
 **Business interpretation (associative, not causal):**
 
 | Direction | Feature | Interpretation |
 |---|---|---|
-| ↑ Churn risk | `obs_recency_days` | Longer inactivity associated with higher churn |
-| ↑ Churn risk | `obs_average_unit_price` | Higher avg unit price at transaction time |
-| ↓ Churn risk | `obs_unique_purchase_days` | More purchase days strongly associated with retention |
-| ↓ Churn risk | `obs_m_score` | Higher monetary RFM score reduces churn risk |
-| ↓ Churn risk | `obs_rfm_total_score` | Stronger RFM profile reduces churn risk |
+| â†‘ Churn risk | `obs_recency_days` | Longer inactivity associated with higher churn |
+| â†‘ Churn risk | `obs_average_unit_price` | Higher avg unit price at transaction time |
+| â†“ Churn risk | `obs_unique_purchase_days` | More purchase days strongly associated with retention |
+| â†“ Churn risk | `obs_m_score` | Higher monetary RFM score reduces churn risk |
+| â†“ Churn risk | `obs_rfm_total_score` | Stronger RFM profile reduces churn risk |
 
-> Country one-hot encoded features produce some of the largest model coefficients. These are associative — they likely reflect customer mix or regional patterns and should **not** be interpreted as causal effects of geography on churn.
+> Country one-hot encoded features produce some of the largest model coefficients. These are associative â€” they likely reflect customer mix or regional patterns and should **not** be interpreted as causal effects of geography on churn.
 
 ---
 
@@ -404,39 +404,39 @@ Logistic Regression achieved the highest ROC-AUC (0.8148) and Average Precision 
 
 The Customer 360 table merges all upstream outputs into one customer-level record with a composite health score:
 
-**Health score formula (0–100 points):**
+**Health score formula (0â€“100 points):**
 
 | Component | Max Points | Basis |
 |---|---|---|
-| RFM | 40 | `(rfm_total_score / 15) × 40` |
-| Churn safety | 30 | `(1 − churn_probability) × 30` · neutral 15 for Not Scored |
-| Revenue | 20 | Revenue percentile rank × 20 |
-| Engagement | 10 | `(is_repeat_buyer × 0.5 + freq_percentile × 0.5) × 10` |
+| RFM | 40 | `(rfm_total_score / 15) Ã— 40` |
+| Churn safety | 30 | `(1 âˆ’ churn_probability) Ã— 30` Â· neutral 15 for Not Scored |
+| Revenue | 20 | Revenue percentile rank Ã— 20 |
+| Engagement | 10 | `(is_repeat_buyer Ã— 0.5 + freq_percentile Ã— 0.5) Ã— 10` |
 
 **Health tier distribution:**
 
 | Tier | Score | Customers | % |
 |---|---|---|---|
-| Excellent | ≥ 80 | 1,099 | 18.7% |
-| Healthy | 60–79 | 1,374 | 23.4% |
-| Watchlist | 40–59 | 1,643 | 28.0% |
-| At Risk | 20–39 | 1,401 | 23.8% |
+| Excellent | â‰¥ 80 | 1,099 | 18.7% |
+| Healthy | 60â€“79 | 1,374 | 23.4% |
+| Watchlist | 40â€“59 | 1,643 | 28.0% |
+| At Risk | 20â€“39 | 1,401 | 23.8% |
 | Critical | < 20 | 361 | 6.1% |
 
-> Excellent + Healthy customers hold **88.9% of revenue (£15.4M)** while representing 42.1% of customers.
+> Excellent + Healthy customers hold **88.9% of revenue (Â£15.4M)** while representing 42.1% of customers.
 
 **Action priority distribution:**
 
 | Priority | Customers | Revenue at Stake | Strategy |
 |---|---|---|---|
-| Priority 1 — Urgent Retention | 1,842 | £864K | Immediate win-back outreach |
-| Priority 2 — High Value Save | 616 | £1.36M | Protect high-value relationships |
-| Priority 3 — Growth Opportunity | 1,436 | £1.11M | Drive repeat purchase |
-| Priority 4 — Loyalty / Upsell | 1,909 | £13.94M | Reward and expand |
-| Priority 5 — Low Cost Nurture | 75 | £109K | Automated drip |
+| Priority 1 â€” Urgent Retention | 1,842 | Â£864K | Immediate win-back outreach |
+| Priority 2 â€” High Value Save | 616 | Â£1.36M | Protect high-value relationships |
+| Priority 3 â€” Growth Opportunity | 1,436 | Â£1.11M | Drive repeat purchase |
+| Priority 4 â€” Loyalty / Upsell | 1,909 | Â£13.94M | Reward and expand |
+| Priority 5 â€” Low Cost Nurture | 75 | Â£109K | Automated drip |
 
-**Key flags:** Retention targets: **2,952** · VIP customers: **1,511**
-**Final table:** 5,878 customers × 46 columns · Revenue reconciliation: £0.00 difference
+**Key flags:** Retention targets: **2,952** Â· VIP customers: **1,511**
+**Final table:** 5,878 customers Ã— 46 columns Â· Revenue reconciliation: Â£0.00 difference
 
 ---
 
@@ -451,14 +451,14 @@ To validate pipeline outputs through an independent query path and create reprod
 DuckDB runs analytical SQL directly over local Parquet datasets without needing a database server. It reads `customer_360.parquet` and `clean_transactions.parquet` as views and executes standard ANSI SQL with minor DuckDB-specific extensions (e.g., `MEDIAN()`).
 
 **Inputs:**
-- `data/processed/customer_360.parquet` — 5,878 customers × 46 columns
-- `data/processed/clean_transactions.parquet` — 779,425 transactions × 13 columns
+- `data/processed/customer_360.parquet` â€” 5,878 customers Ã— 46 columns
+- `data/processed/clean_transactions.parquet` â€” 779,425 transactions Ã— 13 columns
 
-**SQL query coverage:** executive KPIs · health tier summary · RFM segment summary · churn risk summary · country revenue · top customers · action priority summary · monthly revenue · product revenue · customer value tiers
+**SQL query coverage:** executive KPIs Â· health tier summary Â· RFM segment summary Â· churn risk summary Â· country revenue Â· top customers Â· action priority summary Â· monthly revenue Â· product revenue Â· customer value tiers
 
-**Outputs:** `reports/sql_outputs/` — 10 validated CSV files + `sql_analytics_summary.txt`
+**Outputs:** `reports/sql_outputs/` â€” 10 validated CSV files + `sql_analytics_summary.txt`
 
-**Revenue validation:** £17,374,804.27 (SQL) vs £17,374,804.27 (Python) — **£0.00 difference**
+**Revenue validation:** Â£17,374,804.27 (SQL) vs Â£17,374,804.27 (Python) â€” **Â£0.00 difference**
 
 **Business value:** The SQL layer creates business-ready reporting tables that can later be migrated to BigQuery by uploading Parquet files to Google Cloud Storage and replacing `MEDIAN()` with `APPROX_QUANTILES(col, 2)[OFFSET(1)]`.
 
@@ -480,14 +480,14 @@ DuckDB runs analytical SQL directly over local Parquet datasets without needing 
 | Metric | Value |
 |---|---|
 | Total customers | 5,878 |
-| Total revenue | £17,374,804.27 |
-| Avg revenue per customer | £2,955.90 |
-| Median revenue per customer | £867.74 |
+| Total revenue | Â£17,374,804.27 |
+| Avg revenue per customer | Â£2,955.90 |
+| Median revenue per customer | Â£867.74 |
 | Model-scored customers | 5,041 |
 | Retention targets | 2,952 |
 | VIP customers | 1,511 |
 | Excellent + Healthy customers | 2,473 (88.9% of revenue) |
-| Critical + High Risk customers | 2,130 (£1,507,755 revenue at stake) |
+| Critical + High Risk customers | 2,130 (Â£1,507,755 revenue at stake) |
 
 **Runner script:** `src/12_sql_analytics_layer.py`
 
@@ -511,7 +511,7 @@ streamlit run app/streamlit_app.py
 | Action Plan | Priority charts, retention/VIP revenue, action table, CSV downloads |
 | About Project | Pipeline summary, connect links, dataset notes, disclaimer |
 
-**Features:** 8 sidebar filters · Live KPI cards · 20+ Plotly charts · 4 CSV exports · Customer radar chart · Not Scored handling · GBP (£) currency throughout
+**Features:** 8 sidebar filters Â· Live KPI cards Â· 20+ Plotly charts Â· 4 CSV exports Â· Customer radar chart Â· Not Scored handling Â· GBP (Â£) currency throughout
 
 > The dashboard primarily loads processed Parquet files (`customer_360.parquet`, `clean_transactions.parquet`). The SQL layer provides additional validated reporting outputs under `reports/sql_outputs/` for independent business reporting and future BigQuery migration.
 
@@ -596,24 +596,24 @@ Opens at `http://localhost:8501`.
 
 ## Business Recommendations
 
-1. **Protect Champions and Loyal Customers** — These segments generate 78.9% of revenue. Reward with loyalty programs, early access, and premium upsell offers.
-2. **Urgent outreach for Critical Risk customers** — 874 customers have ≥ 80% predicted churn probability. Personal outreach within 48 hours.
-3. **Win-back High Risk customers** — 1,256 customers at 60–79% probability. Targeted email within 7 days.
-4. **Protect Cannot Lose accounts** — High historical revenue, now inactive. Dedicated account management touch.
-5. **Incentivize second purchase from one-time buyers** — One-time buyers churn at 75.5%. A timely second-purchase incentive can convert them to repeat buyers.
-6. **Automate nurture for Hibernating and Low Value segments** — Avoid expensive human touch; use automated email with monitoring.
-7. **Monitor Not Scored customers** — 837 customers lack sufficient history for churn scoring. Assign risk tiers once purchase history accumulates.
+1. **Protect Champions and Loyal Customers** â€” These segments generate 78.9% of revenue. Reward with loyalty programs, early access, and premium upsell offers.
+2. **Urgent outreach for Critical Risk customers** â€” 874 customers have â‰¥ 80% predicted churn probability. Personal outreach within 48 hours.
+3. **Win-back High Risk customers** â€” 1,256 customers at 60â€“79% probability. Targeted email within 7 days.
+4. **Protect Cannot Lose accounts** â€” High historical revenue, now inactive. Dedicated account management touch.
+5. **Incentivize second purchase from one-time buyers** â€” One-time buyers churn at 75.5%. A timely second-purchase incentive can convert them to repeat buyers.
+6. **Automate nurture for Hibernating and Low Value segments** â€” Avoid expensive human touch; use automated email with monitoring.
+7. **Monitor Not Scored customers** â€” 837 customers lack sufficient history for churn scoring. Assign risk tiers once purchase history accumulates.
 
 ---
 
 ## Limitations
 
-- **Historical data:** Dataset covers December 2009 – December 2011. Any insights or models must be recalibrated on current data before operational use.
-- **Engineered churn label:** The dataset does not include a true churn label. Churn is defined as purchase inactivity during the prediction window — seasonal patterns could produce false positives.
-- **Currency assumption:** All monetary values are assumed GBP (£) based on the UK retailer context. No exchange rate data is available.
+- **Historical data:** Dataset covers December 2009 â€“ December 2011. Any insights or models must be recalibrated on current data before operational use.
+- **Engineered churn label:** The dataset does not include a true churn label. Churn is defined as purchase inactivity during the prediction window â€” seasonal patterns could produce false positives.
+- **Currency assumption:** All monetary values are assumed GBP (Â£) based on the UK retailer context. No exchange rate data is available.
 - **No demographics:** Customer age, gender, or segment identifiers beyond country are not in the dataset.
 - **No campaign data:** Customer behavior cannot be attributed to specific marketing campaigns.
-- **Country coefficients:** One-hot country features show large LR coefficients. These are associative and reflect customer mix — not causal effects of geography on churn.
+- **Country coefficients:** One-hot country features show large LR coefficients. These are associative and reflect customer mix â€” not causal effects of geography on churn.
 - **Portfolio scope:** This is a portfolio and educational project, not a production business system. It is not connected to live data, real customers, or production infrastructure.
 
 ---
@@ -646,4 +646,4 @@ Data Analyst | Business Analytics | Machine Learning | Data Engineering
 
 ---
 
-*© 2026 Prajwal Gorkhar Chandrashekar. Portfolio project for demonstration purposes. Insights are based on the UCI Online Retail II public historical dataset.*
+*Â© 2026 Prajwal Gorkhar Chandrashekar. Portfolio project for demonstration purposes. Insights are based on the UCI Online Retail II public historical dataset.*
