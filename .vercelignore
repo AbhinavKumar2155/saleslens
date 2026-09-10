@@ -1,0 +1,13 @@
+# The browser deployment only needs the Vite app. The Python service deploys separately on Render.
+.python-version
+requirements.txt
+environment-local.yml
+data/
+models/
+notebooks/
+reports/
+src/
+sql/
+api/
+app/
+.streamlit/

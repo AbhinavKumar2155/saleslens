@@ -12,9 +12,9 @@ This project no longer requires Streamlit for the production interface.
 ## 2. Deploy the frontend on Vercel
 
 1. Import the same GitHub repository into Vercel.
-2. Set the Vercel root directory to `web`.
+2. Leave the Vercel root directory at the repository root. The root `vercel.json` builds `web/` and prevents the analytics Python environment from being detected as a Vercel function.
 3. Add `VITE_API_URL` in Vercel Environment Variables with the Render service URL, for example `https://your-service.onrender.com`.
-4. Deploy. Vercel uses `npm run build` and serves the single-page app defined by `web/vercel.json`.
+4. Deploy. Vercel builds the Vite application and handles single-page app navigation.
 
 ## Local development
 
@@ -32,4 +32,4 @@ pnpm install
 pnpm dev
 ```
 
-For local frontend development, leave `VITE_API_URL` unset: it defaults to `http://127.0.0.1:5000`.
+For local frontend development, leave `VITE_API_URL` unset: Vite proxies API requests to `http://127.0.0.1:5000`.

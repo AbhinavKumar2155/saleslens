@@ -1,4 +1,4 @@
-"""SalesLens API â€” customer, retention, revenue, and action intelligence."""
+'''SalesLens API â€” customer, retention, revenue, and action intelligence.'''
 from functools import lru_cache
 from io import StringIO
 from pathlib import Path
@@ -32,30 +32,24 @@ class StrictJSONProvider(DefaultJSONProvider):
 
         return super().dumps(sanitize(obj), **kwargs)
 
-
 app = Flask(__name__)
 app.json = StrictJSONProvider(app)
 CORS(app)
-
 
 @lru_cache(maxsize=1)
 def data() -> pd.DataFrame:
     return pd.read_parquet(DATA_PATH)
 
-
 @lru_cache(maxsize=1)
 def transactions() -> pd.DataFrame:
     return pd.read_parquet(TRANSACTIONS_PATH)
-
 
 def records(frame: pd.DataFrame) -> list[dict]:
     # pandas float NaN cannot become None via to_dict; to_json emits valid JSON nulls.
     return json.loads(frame.to_json(orient="records", date_format="iso"))
 
-
 def currency(value: float) -> str:
     return f"Â£{value / 1_000_000:.2f}M" if value >= 1_000_000 else f"Â£{value:,.0f}"
-
 
 def filtered_customers() -> pd.DataFrame:
     """Apply the shared cohort controls to every analysis endpoint."""
@@ -74,25 +68,32 @@ def filtered_customers() -> pd.DataFrame:
                 pass
     return df.copy()
 
-
 def aggregate(frame: pd.DataFrame, group: str) -> list[dict]:
     result = frame.groupby(group, as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), average_revenue=("total_revenue", "mean"), average_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
     return records(result)
-
 
 def summarize(df: pd.DataFrame) -> dict:
     total_revenue = float(df.total_revenue.sum())
     high_risk = df[df.churn_risk_tier.isin(["High Risk", "Critical Risk"])]
     by_segment, by_priority = aggregate(df, "rfm_segment"), aggregate(df, "action_priority")
     top_segment = max(by_segment, key=lambda item: item["revenue"], default={"rfm_segment": "No segment", "revenue": 0})
-    return {"metrics": [
-                {"label": "Customers in view", "value": f"{len(df):,}", "detail": "Customer-level profiles"},
-                {"label": "Revenue represented", "value": currency(total_revenue), "detail": "Lifetime transaction revenue"},
-                {"label": "Retention targets", "value": f"{int(df.retention_target_flag.sum()):,}", "detail": "Prioritised for intervention"},
-                {"label": "Revenue at high risk", "value": currency(float(high_risk.total_revenue.sum())), "detail": "High + critical churn risk"},
-            ], "segments": by_segment, "priorities": by_priority, "health": aggregate(df, "health_tier"), "risk": aggregate(df, "churn_risk_tier"),
-            "insights": [f"{int(df.vip_flag.sum()):,} high-value customers are flagged as VIPs.", f"{int(high_risk.shape[0]):,} customers require immediate retention attention.", f"{top_segment['rfm_segment']} is the highest-revenue segment at {currency(float(top_segment['revenue']))}."]}
-
+    return {
+        "metrics": [
+            {"label": "Customers in view", "value": f"{len(df):,}", "detail": "Customer-level profiles"},
+            {"label": "Revenue represented", "value": currency(total_revenue), "detail": "Lifetime transaction revenue"},
+            {"label": "Retention targets", "value": f"{int(df.retention_target_flag.sum()):,}", "detail": "Prioritised for intervention"},
+            {"label": "Revenue at high risk", "value": currency(float(high_risk.total_revenue.sum())), "detail": "High + critical churn risk"}
+        ],
+        "segments": by_segment,
+        "priorities": by_priority,
+        "health": aggregate(df, "health_tier"),
+        "risk": aggregate(df, "churn_risk_tier"),
+        "insights": [
+            f"{int(df.vip_flag.sum()):,} high-value customers are flagged as VIPs.",
+            f"{int(high_risk.shape[0]):,} customers require immediate retention attention.",
+            f"{top_segment['rfm_segment']} is the highest-revenue segment at {currency(float(top_segment['revenue']))}."
+        ]
+    }
 
 def pagination(frame: pd.DataFrame, default_limit: int = 12) -> tuple[pd.DataFrame, dict]:
     try:
@@ -103,11 +104,9 @@ def pagination(frame: pd.DataFrame, default_limit: int = 12) -> tuple[pd.DataFra
     page = min(page, pages)
     return frame.iloc[(page - 1) * limit:page * limit], {"page": page, "limit": limit, "total": total, "pages": pages}
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "product": "SalesLens"}
-
 
 @app.get("/api/dashboard")
 def dashboard():
@@ -115,19 +114,16 @@ def dashboard():
     response["page"] = request.args.get("page", "overview")
     return jsonify(response)
 
-
 @app.get("/api/filters")
 def filters():
     df = data()
     return jsonify({"health": sorted(df.health_tier.dropna().unique().tolist()), "rfm": sorted(df.rfm_segment.dropna().unique().tolist()), "risk": sorted(df.churn_risk_tier.dropna().unique().tolist()), "action": sorted(df.action_priority.dropna().unique().tolist()), "value": sorted(df.customer_value_tier.dropna().unique().tolist()), "country": sorted(df.country_mode.dropna().unique().tolist())})
-
 
 @app.get("/api/segments")
 def segments():
     df = filtered_customers()
     table = df.groupby("rfm_segment", as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), avg_recency_days=("recency_days", "mean"), avg_invoices=("total_invoices", "mean"), avg_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
     return jsonify({"rfm": aggregate(df, "rfm_segment"), "value": aggregate(df, "customer_value_tier"), "health_by_segment": records(df.groupby(["rfm_segment", "health_tier"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"))), "table": records(table)})
-
 
 @app.get("/api/retention")
 def retention():
@@ -138,7 +134,6 @@ def retention():
     high_page, meta = pagination(high[["customer_id", "country_mode", "total_revenue", "rfm_segment", "health_tier", "churn_probability", "churn_risk_tier", "final_recommended_action"]], 15)
     drivers = pd.read_csv(REPORTS / "churn_global_feature_importance.csv").sort_values("abs_coefficient", ascending=False).head(12)
     return jsonify({"risk": aggregate(df, "churn_risk_tier"), "distribution": records(distribution), "high_risk": records(high_page), "pagination": meta, "drivers": records(drivers), "model_metrics": records(pd.read_csv(REPORTS / "churn_model_metrics.csv"))})
-
 
 @app.get("/api/revenue")
 def revenue():
@@ -152,14 +147,12 @@ def revenue():
     products = tx.groupby(["stock_code", "description"], as_index=False).agg(revenue=("revenue", "sum"), quantity=("quantity", "sum"), customers=("customer_id", "nunique")).sort_values("revenue", ascending=False).head(12)
     return jsonify({"monthly": records(monthly), "countries": records(countries), "products": records(products), "segments": aggregate(df, "rfm_segment"), "priorities": aggregate(df, "action_priority")})
 
-
 @app.get("/api/actions")
 def actions():
     df = filtered_customers()
     plan = df.groupby(["action_priority", "final_recommended_action"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), average_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
     queue, meta = pagination(df.sort_values(["action_priority", "churn_probability", "total_revenue"], ascending=[True, False, False])[["customer_id", "action_priority", "final_recommended_action", "total_revenue", "churn_probability", "health_tier"]], 15)
     return jsonify({"priorities": aggregate(df, "action_priority"), "health": aggregate(df, "health_tier"), "plan": records(plan), "queue": records(queue), "pagination": meta})
-
 
 @app.get("/api/customers")
 def customers():
@@ -171,7 +164,6 @@ def customers():
     rows, meta = pagination(df[cols].sort_values("total_revenue", ascending=False))
     return jsonify({"records": records(rows), **meta})
 
-
 @app.get("/api/customer/<customer_id>")
 def customer_profile(customer_id: str):
     customer = data()[data().customer_id.astype(str) == customer_id]
@@ -181,7 +173,6 @@ def customer_profile(customer_id: str):
     tx = transactions()[transactions().customer_id.astype(str) == customer_id]
     row["recent_purchases"] = records(tx.sort_values("invoice_date", ascending=False)[["invoice_id", "invoice_date", "description", "quantity", "revenue"]].head(8))
     return jsonify(row)
-
 
 @app.get("/api/export/<kind>")
 def export(kind: str):
@@ -194,5 +185,6 @@ def export(kind: str):
         df = df.sort_values(["action_priority", "churn_probability", "total_revenue"], ascending=[True, False, False])
     elif kind != "customers":
         return jsonify({"error": "Unknown export"}), 404
-    output = StringIO(); df.to_csv(output, index=False)
+    output = StringIO()
+    df.to_csv(output, index=False)
     return Response(output.getvalue(), mimetype="text/csv", headers={"Content-Disposition": f"attachment; filename=saleslens-{kind}.csv"})
