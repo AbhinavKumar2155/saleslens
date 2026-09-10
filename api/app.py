@@ -1,4 +1,4 @@
-"""SalesLens API â€” customer, retention, revenue, and action intelligence."""
+"""SalesLens API — customer, retention, revenue, and action intelligence."""
 from functools import lru_cache
 from io import StringIO
 from pathlib import Path
@@ -54,7 +54,7 @@ def records(frame: pd.DataFrame) -> list[dict]:
 
 
 def currency(value: float) -> str:
-    return f"Â£{value / 1_000_000:.2f}M" if value >= 1_000_000 else f"Â£{value:,.0f}"
+    return f"£{value / 1_000_000:.2f}M" if value >= 1_000_000 else f"£{value:,.0f}"
 
 
 def filtered_customers() -> pd.DataFrame:
@@ -74,11 +74,9 @@ def filtered_customers() -> pd.DataFrame:
                 pass
     return df.copy()
 
-
 def aggregate(frame: pd.DataFrame, group: str) -> list[dict]:
     result = frame.groupby(group, as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), average_revenue=("total_revenue", "mean"), average_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
     return records(result)
-
 
 def summarize(df: pd.DataFrame) -> dict:
     total_revenue = float(df.total_revenue.sum())
@@ -91,8 +89,8 @@ def summarize(df: pd.DataFrame) -> dict:
                 {"label": "Retention targets", "value": f"{int(df.retention_target_flag.sum()):,}", "detail": "Prioritised for intervention"},
                 {"label": "Revenue at high risk", "value": currency(float(high_risk.total_revenue.sum())), "detail": "High + critical churn risk"},
             ], "segments": by_segment, "priorities": by_priority, "health": aggregate(df, "health_tier"), "risk": aggregate(df, "churn_risk_tier"),
-            "insights": [f"{int(df.vip_flag.sum()):,} high-value customers are flagged as VIPs.", f"{int(high_risk.shape[0]):,} customers require immediate retention attention.", f"{top_segment['rfm_segment']} is the highest-revenue segment at {currency(float(top_segment['revenue']))}."]}
-
+            "insights": [f"{int(df.vip_flag.sum()):,} high-value customers are flagged as VIPs.", f"{int(high_risk.shape[0]):,} customers require immediate retention attention.", f"{top_segment['rfm_segment']} is the highest-revenue segment at {currency(float(top_segment['revenue']))}."]
+            }
 
 def pagination(frame: pd.DataFrame, default_limit: int = 12) -> tuple[pd.DataFrame, dict]:
     try:
@@ -125,19 +123,19 @@ def filters():
 @app.get("/api/segments")
 def segments():
     df = filtered_customers()
-    table = df.groupby("rfm_segment", as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), avg_recency_days=("recency_days", "mean"), avg_invoices=("total_invoices", "mean"), avg_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
-    return jsonify({"rfm": aggregate(df, "rfm_segment"), "value": aggregate(df, "customer_value_tier"), "health_by_segment": records(df.groupby(["rfm_segment", "health_tier"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"))), "table": records(table)})
+    table = df.groupby("rfm_segment", as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), avg_recency_days=("recency_days", "mean"), avg_invoices=("total_invoices", "mean"))
+    return jsonify({"rfm": aggregate(df, "rfm_segment"), "value": aggregate(df, "customer_value_tier"), "health_by_segment": records(df.groupby(["rfm_segment", "health_tier"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum")))})
 
 
 @app.get("/api/retention")
 def retention():
     df = filtered_customers()
-    bands = pd.cut(df.churn_probability, [-.01, .2, .4, .6, .8, 1], labels=["0â€“20%", "20â€“40%", "40â€“60%", "60â€“80%", "80â€“100%"])
+    bands = pd.cut(df.churn_probability, [-.01, .2, .4, .6, .8, 1], labels=["0–20%", "20–40%", "40–60%", "60–80%", "80–100%"])
     distribution = df.assign(probability_band=bands).groupby("probability_band", observed=False, as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"))
     high = df.sort_values(["churn_probability", "total_revenue"], ascending=False)
     high_page, meta = pagination(high[["customer_id", "country_mode", "total_revenue", "rfm_segment", "health_tier", "churn_probability", "churn_risk_tier", "final_recommended_action"]], 15)
     drivers = pd.read_csv(REPORTS / "churn_global_feature_importance.csv").sort_values("abs_coefficient", ascending=False).head(12)
-    return jsonify({"risk": aggregate(df, "churn_risk_tier"), "distribution": records(distribution), "high_risk": records(high_page), "pagination": meta, "drivers": records(drivers), "model_metrics": records(pd.read_csv(REPORTS / "churn_model_metrics.csv"))})
+    return jsonify({"risk": aggregate(df, "churn_risk_tier"), "distribution": records(distribution), "high_risk": records(high_page), "pagination": meta, "drivers": records(drivers), "model_metrics": records(pd.read_csv(REPORTS / "model_metrics.csv"))})
 
 
 @app.get("/api/revenue")
@@ -146,7 +144,7 @@ def revenue():
     tx = transactions()
     if len(df) != len(data()):
         tx = tx[tx.customer_id.isin(df.customer_id)]
-    monthly = tx.groupby("invoice_yearmonth", as_index=False).agg(revenue=("revenue", "sum"), invoices=("invoice_id", "nunique"), customers=("customer_id", "nunique")).sort_values("invoice_yearmonth")
+    monthly = tx.groupby("invoice_yearmonth", as_index=False).agg(revenue=("revenue", "sum"), invoices=("invoice_id", "nunique"), customers=("customer_id", "nunique")).sort_values("invoice_yearmonth", ascending=True)
     monthly["average_order_value"] = monthly.revenue / monthly.invoices
     countries = tx.groupby("country", as_index=False).agg(revenue=("revenue", "sum"), customers=("customer_id", "nunique")).sort_values("revenue", ascending=False).head(12)
     products = tx.groupby(["stock_code", "description"], as_index=False).agg(revenue=("revenue", "sum"), quantity=("quantity", "sum"), customers=("customer_id", "nunique")).sort_values("revenue", ascending=False).head(12)
@@ -156,8 +154,8 @@ def revenue():
 @app.get("/api/actions")
 def actions():
     df = filtered_customers()
-    plan = df.groupby(["action_priority", "final_recommended_action"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), average_churn_probability=("churn_probability", "mean")).sort_values("revenue", ascending=False)
-    queue, meta = pagination(df.sort_values(["action_priority", "churn_probability", "total_revenue"], ascending=[True, False, False])[["customer_id", "action_priority", "final_recommended_action", "total_revenue", "churn_probability", "health_tier"]], 15)
+    plan = df.groupby(["action_priority", "final_recommended_action"], as_index=False).agg(customers=("customer_id", "count"), revenue=("total_revenue", "sum"), average_churn_probability=("churn_probability", "mean"))
+    queue, meta = pagination(df.sort_values(["action_priority", "churn_probability", "total_revenue"], ascending=[True, False, False])[["customer_id", "action_priority", "final_recommended_action", "total_revenue", "churn_probability"]], 15)
     return jsonify({"priorities": aggregate(df, "action_priority"), "health": aggregate(df, "health_tier"), "plan": records(plan), "queue": records(queue), "pagination": meta})
 
 
