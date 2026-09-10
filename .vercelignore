@@ -6,7 +6,7 @@ data/
 models/
 notebooks/
 reports/
-src/
+/src/
 sql/
 api/
 app/
